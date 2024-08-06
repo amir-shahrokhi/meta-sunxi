@@ -1,0 +1,13 @@
+# short-description: Create SD card image with a boot partition
+# long-description:
+# Create an image that can be written onto a SD card using dd for use
+# with Allwinner arm (32-bit) SoC family
+#
+
+part boot0          --ondisk mmcblk0    --source rawcopy    --sourceparams="file=${SPL_BINARY}" --align 8       --no-table
+part boot-packages  --ondisk mmcblk0    --source rawcopy    --sourceparams="file=${TPL_BINARY}" --align 16400   --no-table
+part boot-resource  --ondisk mmcblk0    --source rawcopy    --sourceparams="file=${RSC_BINARY}" --fixed-size 17219
+part env            --ondisk mmcblk0    --source rawcopy    --sourceparams="file=${ENV_BINARY}" --fixed-size 1024
+part env-redund     --ondisk mmcblk0    --source rawcopy    --sourceparams="file=${ENV_BINARY}" --fixed-size 1024
+part boot           --ondisk mmcblk0    --source rawcopy    --sourceparams="file=${KRN_BINARY}" --fixed-size 20480
+part /              --ondisk mmcblk0    --source rootfs     --fstype=ext4
